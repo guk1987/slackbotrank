@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      h3 {
+          text-align: center;
+          margin-top: 20px;
+          }
+
+      h1{
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+    
+      p{
+        text-align: center;
+        line-height: 0.8;
+      }
+    
+      form{
+        text-align: center;
+        margin-top: 25px;
+      }
+
+
+      .container {
+          display: flex;
+          justify-content: space-between;
+          }
+
+      .table-container {
+          width: 48%;
+          }
+      table {
+          border-collapse: collapse;
+          width: 500px;
+          margin: 0 auto;
+          text-align: center; 
+      }
+      th, td {
+          text-align: center;
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+      }
+      th {
+          background-color: #f2f2f2;
+          color: black;
+      }
+      tr:nth-child(even) {
+          background-color: #f2f2f2
+      }
+      .duration{
+        font-size: 1.2rem; 
+        font-weight: bold; 
+        margin-bottom: 10px; 
+        text-align: center;
+        margin-bottom: 25px;
+      }
+      .button {
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          text-align: center;
+          display: inline-block;
+          font-size: 20px;
+          transition-duration: 0.4s;
+          cursor: pointer;
+          padding: 12px 24px;
+          border-radius: 8px;
+      }
+
+.button:hover {
+  background-color: #45a049;
+}
+  </style>
+    <meta charset="utf-8">
+    <h1>슬랙 따봉 랭킹</h1>
+      <p class ="duration">집계 기간 : 2023-04-01 ~ 2023-04-30</p>
+      <p>슬랙에서 다른 사람에게 따봉!(반응)을 하면 월별 누적 랭킹이 집계 됩니다. </p>
+      <p>1인당 하루 10개까지 랭킹에 집계되며 따봉을 지급했다가 삭제한 건은 반영되지 않습니다.</p>
+      <p>본인에게 지급한 따봉은 랭킹에 반영되지 않으며 하루 사용 가능한 숫자에서도 차감되지 않습니다.</p>
+      <p>아래 "링킹 보기" 버튼을 눌러 집계를 확인하세요.</p>
+  </head>
+  <body>
+    <form method="POST" action="/rank_emoji">
+      <input type="submit" value="랭킹 보기" class="button">
+    </form>
+    {{ result }}
+  </body>
+</html>
