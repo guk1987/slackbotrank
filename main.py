@@ -93,9 +93,8 @@ def handle_reaction_event(body, logger, event_type):
                 if daily_emoji_limit <= 0:
                 # 해당 유저에게만 보이는 메시지 전달
                     try:
-                        client.chat_postEphemeral(
-                            channel=event["item"]["channel"],
-                            user=user,
+                        client.chat_postMessage(
+                            channel=user,
                             text="하루 사용 가능한 따봉 이모지를 모두 사용하셨습니다. <http://10.10.55.151:3000/|랭킹 페이지>"
                         )
                     except SlackApiError as e:
@@ -109,18 +108,16 @@ def handle_reaction_event(body, logger, event_type):
                     #DB에 저장 (오늘 남은 따봉 이모지 갯수)
                     cursor.execute("UPDATE users SET daily_emoji_limit = ? WHERE id = ?", (daily_emoji_limit, user))
                     try:
-                        client.chat_postEphemeral(
-                            channel=event["item"]["channel"],
-                            user=user,
-                            text=f"오늘 사용 가능한 따봉 이모지는 {daily_emoji_limit}개 남았습니다. <http://10.10.55.151:3000/|랭킹 페이지>"
-                        )
+                        client.chat_postMessage(
+                        channel=user,
+                        text=f"오늘 사용 가능한 따봉 이모지는 {daily_emoji_limit}개 남았습니다. <http://10.10.55.151:3000/|랭킹 페이지>"
+                    )
                     except SlackApiError as e:
                         logger.error(f"Error sending ephemeral message: {e}")
         else:
             try:
-                client.chat_postEphemeral(
-                    channel=event["item"]["channel"],
-                    user=user,
+                client.chat_postMessage(
+                    channel=user,
                     text="본인에게 준 따봉은 <http://10.10.55.151:3000/|랭킹>에 반영되지 않습니다."
                 )
             except SlackApiError as e:
@@ -130,9 +127,8 @@ def handle_reaction_event(body, logger, event_type):
     # 이모지가 +1 삭제 부분
     elif reaction == "+1" and event_type == "removed":
         try:
-            client.chat_postEphemeral(
-            channel=event["item"]["channel"],
-            user=user,
+            client.chat_postMessage(
+            channel=user,
             text="따봉 삭제 기록은 <http://10.10.55.151:3000/|랭킹>에 저장되지 않습니다."
             )
         except SlackApiError as e:
