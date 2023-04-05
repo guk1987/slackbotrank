@@ -13,7 +13,8 @@ import schedule
 from dotenv import load_dotenv
 
 load_dotenv()
-
+server_ip = os.environ.get('IP')
+server_port = os.environ.get('PORT')
 bot_token = os.environ.get('SLACK_BOT_TOKEN')
 app_token = os.environ.get('SLACK_APP_TOKEN')
 
@@ -122,7 +123,7 @@ def handle_reaction_event(body, logger, event_type):
                             try:
                                 client.chat_postMessage(
                                     channel=user,
-                                    text="하루 사용 가능한 따봉 이모지를 모두 사용하셨습니다. <http://10.10.55.151:3000/|랭킹 페이지>"
+                                    text=f"하루 사용 가능한 따봉 이모지를 모두 사용하셨습니다. <http://{server_ip}:{server_port}/|랭킹 페이지>"
                                 )
                             except SlackApiError as e:
                                 logger.error(f"Error sending ephemeral message: {e}")                
@@ -137,7 +138,7 @@ def handle_reaction_event(body, logger, event_type):
                             try:
                                 client.chat_postMessage(
                                 channel=user,
-                                text=f"오늘 사용 가능한 따봉 이모지는 {daily_emoji_limit}개 남았습니다. <http://10.10.55.151:3000/|랭킹 페이지>"
+                                text=f"오늘 사용 가능한 따봉 이모지는 {daily_emoji_limit}개 남았습니다. <http://{server_ip}:{server_port}/|랭킹 페이지>"
                             )
                             except SlackApiError as e:
                                 logger.error(f"Error sending ephemeral message: {e}")
@@ -145,7 +146,7 @@ def handle_reaction_event(body, logger, event_type):
                     try:
                         client.chat_postMessage(
                             channel=user,
-                            text="본인에게 준 따봉은 <http://10.10.55.151:3000/|랭킹>에 반영되지 않습니다."
+                            text=f"본인에게 준 따봉은 <http://{server_ip}:{server_port}/|랭킹>에 반영되지 않습니다."
                         )
                     except SlackApiError as e:
                         logger.error(f"Error sending ephemeral message: {e}")
@@ -156,7 +157,7 @@ def handle_reaction_event(body, logger, event_type):
                 try:
                     client.chat_postMessage(
                     channel=user,
-                    text="따봉 삭제 기록은 <http://10.10.55.151:3000/|랭킹>에 저장되지 않습니다."
+                    text=f"따봉 삭제 기록은 <http://<http://{server_ip}:{server_port}/|랭킹>에 저장되지 않습니다."
                     )
                 except SlackApiError as e:
                     logger.error(f"Error sending ephemeral message: {e}")
@@ -240,7 +241,7 @@ def get_rank_emoji():
 
 # Flask app 실행을 위한 함수
 def run_flask():
-    flask_app.run(debug=False, host = "10.10.55.151", port=3000)
+    flask_app.run(debug=False, host = server_ip, port=server_port)
 
 def run_slackapp():
     handler = SocketModeHandler(app, app_token)
