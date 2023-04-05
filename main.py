@@ -10,6 +10,9 @@ from multiprocessing import Process
 import time
 import threading
 import schedule
+from dotenv import load_dotenv
+
+load_dotenv()
 
 bot_token = os.environ.get('SLACK_BOT_TOKEN')
 app_token = os.environ.get('SLACK_APP_TOKEN')
@@ -167,23 +170,6 @@ def handle_reaction_event(body, logger, event_type):
             conn.close()
             logger.info(f"{user} {event_type} '{reaction}' emoji to {item_user}'s message at {timestamp}")
 
-    
-
-# def daily_used_check(body, logger):
-#     event = body["event"]
-#     user = event["user"]
-#     reaction = event["reaction"]
-#     item_user = event["item_user"]
-#     timestamp = event["event_ts"]
-#     conn = sqlite3.connect("slack.db")
-#     cursor = conn.cursor()
-#     cursor.execute("SELECT * FROM emoji_usage WHERE user_id = ? AND item_user_id = ? AND timestamp = ? AND reaction = ? AND event_type = ?", (user, item_user, timestamp, reaction, "added"))
-#     result = cursor.fetchall()
-#     if len(result) == 1:
-#         return True
-#     else:
-#         return False
-
 @app.event("app_mention")
 def handle_mention(event, say):
     text = f"Hello, <@{event['user']}>!"
@@ -213,7 +199,7 @@ def handle_command(ack, command, logger, say):
         # 권한 없음 메시지 전송
         message_text = "사용할 수 있는 권한이 없습니다."
 
-    say(text=message_text)
+    say(text=message_text, response_type="ephemeral")
 
 @app.command("/랭킹")
 def handle_command(say, ack, command, logger):
