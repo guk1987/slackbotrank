@@ -6,7 +6,7 @@ def rank_emoji(call_type):
     conn = sqlite3.connect("slack.db")
     cursor = conn.cursor()
 
-    start_date = "2023-04-01"
+    start_date = "2023-04-05"
     end_date = "2023-04-31"
 
     # 이모지를 많이 받은 사용자별 이모지 누적 개수
