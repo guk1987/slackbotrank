@@ -157,7 +157,7 @@ def handle_reaction_event(body, logger, event_type):
                 try:
                     client.chat_postMessage(
                     channel=user,
-                    text=f"따봉 삭제 기록은 <http://<http://{server_ip}:{server_port}/|랭킹>에 저장되지 않습니다."
+                    text=f"따봉 삭제 기록은 <http://{server_ip}:{server_port}/|랭킹>에 저장되지 않습니다."
                     )
                 except SlackApiError as e:
                     logger.error(f"Error sending ephemeral message: {e}")
@@ -235,9 +235,9 @@ def home():
 @flask_app.route('/rank_emoji', methods=['POST'])
 def get_rank_emoji():
 
-    fin_text = rank_emoji(call_type="flask")
+    fin_text, start_date, end_date = rank_emoji(call_type="flask")
     fin_text = Markup(fin_text)
-    return render_template('home.html', result=fin_text)
+    return render_template('home.html', result=fin_text, start_date=start_date, end_date=end_date)
 
 # Flask app 실행을 위한 함수
 def run_flask():
